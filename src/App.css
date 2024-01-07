@@ -1,0 +1,328 @@
+/* Colors: */
+:root {
+  --white: #FFFFFF;
+  --white-2: #F0F2F5;
+  --brown: #773B21;
+  --card: #FCFAC7;
+  --red: #FF1744;
+  --black: #212121;
+  --cream: #E0E2E5;
+  --blue: #0866FF;
+}
+
+.app {
+  text-align: center;
+}
+
+/* Welcome page */
+
+.welcome-div-wrapper {
+  background: var(--white-2) 0% 0% no-repeat padding-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 955px;
+}
+
+.welcome-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 920px;
+  height: 480px;
+  margin-top: 220px;
+
+  background: var(--white) 0% 0% no-repeat padding-box;
+  border: 1px solid var(--cream);
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 16px;
+}
+
+.welcome-logo {
+  /* margin-top: 48px; */
+  width: 187px;
+  height: 82px;
+}
+
+.p-1 {
+  margin: 32px 0 0 0;
+  font: normal normal 500 24px/28px Rubik;
+}
+
+.p-2 {
+  margin: 8px 0 0 0;
+  color: var(--black);
+  font: normal normal normal 16px/19px Rubik;
+}
+
+.p-3 {
+  margin: 10px 0 0 0;
+  font: normal normal 300 14px/17px Rubik;
+}
+
+.MuiButton-root.add-file-button {
+  width: 280px;
+  height: 55px;
+  margin: 133px 0 0 0;
+  background: var(--blue) 0% 0% no-repeat padding-box !important;
+  border-radius: 6px !important;
+  opacity: 1 !important;
+  font: normal normal bold 18px/22px Rubik;
+}
+
+
+
+
+/* Top - Search and logo */
+.logo {
+  /* left: 1693px; */
+  width: 187px;
+  height: 82px;
+  position: absolute;
+  right: 40px;
+  cursor: pointer;
+}
+
+.head-div {
+  height: 92px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  width: 100%;
+  background: var(--white) 0% 0% no-repeat padding-box !important;
+  box-shadow: 0px 3px 6px #00000029 !important;
+  z-index: 1000;
+  margin-bottom: 4px;
+}
+
+.search-bar {
+  top: 2px;
+  width: 576px;
+  height: 60px;
+  background: var(--white) 0% 0% no-repeat padding-box !important;
+  border: 1px solid var(--cream) !important;
+  box-shadow: 0px 3px 6px #00000029 !important;
+  border-radius: 16px !important;
+  opacity: 1 !important;
+}
+
+.search-bar ::placeholder {
+  text-align: right;
+  color: var(--black);
+  letter-spacing: 0px;
+  opacity: 0.4;
+}
+
+.search-bar input {
+  direction: rtl;
+  width: 480px !important;
+  height: 28px !important;
+  margin-top: 13px !important;
+  margin-left: 30px;
+  font-family: 'Rubik' !important;
+  font-variant: normal !important;
+  font-weight: medium !important;
+  font-size: 24px !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0px !important;
+}
+
+.search-icon {
+  width: 24px !important;
+  height: 24px !important;
+  margin-top: 12px;
+  color: var(--blue);
+  margin-left: 10px;
+}
+
+.search-bar .MuiInput-root::before,
+.search-bar .MuiInput-root::after {
+  border-bottom: none !important;
+}
+
+
+/* File name and delete icon */
+.file-info-div {
+  position: fixed;
+  width: 184px;
+  height: 55px;
+  right: 35px;
+  top: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  /* text-align: right; */
+}
+
+.file-info-text {
+  font: normal normal normal 16px/19px Rubik;
+  position: absolute;
+  bottom: 15px;
+  right: 30px;
+}
+
+.file-name {
+  font: normal normal 500 24px/28px Rubik;
+  position: absolute;
+  top: 5px;
+  right: 30px;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 20px;
+  /* right: 5px; */
+  color: var(--red);
+  cursor: pointer;
+}
+
+/* Loader animation */
+.loader-div {
+  position: absolute;
+  width: 292px;
+  height: 187px;
+  top: 407px;
+  left: 814px;
+}
+
+.loader-animation {
+  position: absolute;
+  left: 90px;
+  width: 100px;
+  height: 100px;
+}
+
+.loader-p-1 {
+  position: absolute;
+  top: 95px;
+  left: 4px;
+  font: normal normal 500 24px/28px Rubik;
+  margin-bottom: 8px !important;
+
+}
+
+.loader-p-2 {
+  font: normal normal normal 16px/19px Rubik;
+  position: absolute;
+  top: 145px;
+}
+
+/* No results animation */
+
+.no-results-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 250px;
+}
+
+.empty-box-animation {
+  width: 220px;
+  height: 220px;
+}
+
+.no-results-p1 {
+  font: normal normal 500 24px/28px Rubik;
+  margin: 1.5rem 0 0 0;
+}
+
+.no-results-p2 {
+  font: normal normal normal 16px/19px Rubik;
+  margin: 0.5rem 0 0 0;
+}
+
+
+/* Data page */
+.display-page {
+  padding: 92px;
+  background-color: var(--white-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+}
+
+/* Accordions */
+.MuiAccordion-root {
+  width: 1348px;
+  margin-top: 16px !important;
+  border: 1px solid var(--cream) !important;
+  box-shadow: 0px 3px 6px #00000029 !important;
+  border-radius: 16px !important;
+  opacity: 1 !important;
+}
+
+.MuiPaper-root.MuiAccordion-root:before {
+  display: none !important;
+}
+
+.MuiAccordionSummary-root {
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, border-radius 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important;
+}
+
+.MuiAccordionSummary-root.Mui-expanded {
+  background-color: var(--blue);
+  border-radius: 16px 16px 0 0;
+  color: var(--white) !important;
+}
+
+.MuiTypography-root.accordion-head-text {
+  font: normal normal normal 15px/19px Rubik;
+  text-align: right !important;
+  position: relative !important;
+  margin-left: auto !important;
+  max-width: calc(1348px - 70px) !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.accordion-head-text-column {
+  /* margin-top: 20px !important; */
+  color: #455A64;
+  opacity: 1;
+  font: normal normal normal 12px/15px Rubik;
+}
+
+.MuiAccordionSummary-root.Mui-expanded .accordion-head-text .accordion-head-text-column {
+  color: var(--white);
+}
+
+
+
+
+/* Expand more icon */
+.expand-more-icon {
+  margin: auto 10px !important;
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+.MuiAccordionSummary-root.Mui-expanded .expand-more-icon {
+  color: var(--white);
+  transform: rotate(180deg);
+}
+
+
+
+
+
+/* Cards */
+.MuiCard-root {
+  width: calc(33.33% - 16px);
+  box-sizing: border-box;
+  padding: 0 16px;
+  text-align: right;
+  margin: 16px 6px;
+  float: right;
+  clear: none;
+  box-shadow: none !important;
+}
+
+.column-name {
+  color: var(--blue);
+}
