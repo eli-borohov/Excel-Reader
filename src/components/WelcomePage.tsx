@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Typography } from '@mui/material';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { Button } from '@mui/material';
 import logo from '../logo.jpg';
 
 interface WelcomePageProps {
