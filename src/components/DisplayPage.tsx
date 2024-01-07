@@ -58,6 +58,7 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
           </Card>
         );
       }
+      return null;
     });
   };
 

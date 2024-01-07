@@ -29,6 +29,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onCsvDataChange }) => {
 
         // Pass the data to the parent component
         onCsvDataChange(parsedCsvData, file.name);
+        console.log(csvData);
 
       } catch (error) {
         // Handle error
