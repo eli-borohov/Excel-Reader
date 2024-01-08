@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import logo from '../logo.jpg';
+import * as XLSX from 'xlsx';
 
 interface WelcomePageProps {
   onCsvDataChange: (data: { [columnName: string]: string }[] | null, filename: string) => void;
@@ -9,56 +10,55 @@ interface WelcomePageProps {
 
 
 const WelcomePage: React.FC<WelcomePageProps> = ({ onCsvDataChange }) => {
-  const [csvData, setCsvData] = useState<{ [columnName: string]: string }[] | null>(null);
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-
-    //Invoke the loader animation
-
     const file = event.target.files?.[0];
+
     if (file) {
       try {
-        // Read the file content
-        const content = await readFile(file);
+        const workbook = await readExcel(file);
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
 
-        // Convert CSV content to structured data
-        const parsedCsvData = parseCsv(content);
+        //Convert sheet data to structed data
+        const parsedData: (string | number)[][] = XLSX.utils.sheet_to_json(sheet, { header: 1 });
 
-        // Set the structured data in the state
-        setCsvData(parsedCsvData);
+        //Handle the case where the first row contains headers
+      const header: string[] = parsedData[0] as string[];
+      const rowData = parsedData.slice(1).map((row: (string | number)[]) =>
+        row.reduce((acc: { [columnName: string]: string }, value: string | number, index: number) => {
+          acc[header[index]] = value.toString();
+          return acc;
+        }, {})
+      );
 
         // Pass the data to the parent component
-        onCsvDataChange(parsedCsvData, file.name);
-        console.log(csvData);
+        onCsvDataChange(rowData, file.name);
 
       } catch (error) {
         // Handle error
-        console.error('Error reading or parsing CSV file', error);
+        console.error('Error reading or parsing Excel file', error);
       }
     }
   };
 
-  const readFile = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
+
+  const readExcel = (file: File): Promise<XLSX.WorkBook> => {
+    return new Promise((resolve, rejects) => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const content = e.target?.result as string;
-        resolve(content);
+        const arrayBuffer = e.target?.result as ArrayBuffer;
+        const data = new Uint8Array(arrayBuffer);
+        const workbook = XLSX.read(data, { type: 'array'});
+        resolve(workbook);
       };
       reader.onerror = (error) => {
-        reject(error);
+        rejects(error);
       };
-      reader.readAsText(file);
+      reader.readAsArrayBuffer(file);
     });
   };
 
-  const parseCsv = (content: string): { [columnName: string]: string }[] => {
-    const lines = content.split('\n');
-    const header = lines[0].split(',');
-    return lines
-      .slice(1)
-      .map((line) => line.split(',').reduce((acc, value, index) => ({ ...acc, [header[index]]: value }), {}));
-  };
 
   const handleButtonClick = () => {
     // Trigger the hidden file input
@@ -70,21 +70,21 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onCsvDataChange }) => {
 
   return (
     <div className='welcome-div-wrapper'>
-    <div className='welcome-div'>
-      <img src={logo} alt="Logo" className='welcome-logo' />
-          {/* Welcome message */}
-          <p className='p-1'>ברוכים הבאים</p>
-          <p className='p-2'>על מנת להתחיל, יש לטעון את הקובץ הרצוי מהמכשיר</p>
-          <p className='p-3'>(בלבד CSV ניתן לטעון קבצים בפורמט)</p>
+      <div className='welcome-div'>
+        <img src={logo} alt="Logo" className='welcome-logo' />
+        {/* Welcome message */}
+        <p className='p-1'>ברוכים הבאים</p>
+        <p className='p-2'>על מנת להתחיל, יש לטעון את הקובץ הרצוי מהמכשיר</p>
+        <p className='p-3'>(בלבד CSV ניתן לטעון קבצים בפורמט)</p>
 
-          {/* Hidden file input */}
-          <input id='fileInput' type='file' accept='.csv' onChange={handleFileChange} style={{ display: 'none' }} />
+        {/* Hidden file input */}
+        <input id='fileInput' type='file' accept='.xlsx' onChange={handleFileChange} style={{ display: 'none' }} />
 
-          {/* Upload file button */}
-          <Button className='add-file-button' variant='contained' onClick={handleButtonClick}>
-            בחירת קובץ
-          </Button>
-    </div>
+        {/* Upload file button */}
+        <Button className='add-file-button' variant='contained' onClick={handleButtonClick}>
+          בחירת קובץ
+        </Button>
+      </div>
     </div>
   );
 };

@@ -43,14 +43,16 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
   const renderCards = (rowData: { [columnName: string]: string }) => {
     return headerColumns.slice(1).map((columnName, index) => {
       const cellValue = rowData[columnName];
+      console.log(cellValue); // Check if cellValue is correct
 
       if (cellValue !== undefined && cellValue.trim() !== '') {
         return (
           <Card key={index}>
-            <CardContent>
-              <Typography>
+            <CardContent style={{ direction: 'rtl' }}>
+              <Typography style={{ whiteSpace: 'pre-line' }}>
                 <span className='column-name'>
-                  {`${columnName}`}</span>
+                  {`${columnName}`}
+                </span>
                 <br />
                 {cellValue}
               </Typography>
@@ -143,18 +145,24 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
                 ))
               )
             ) : (
-              //Display data without search term
-              csvData.map((rowData, index) => (
-                <Accordion key={index}>
-                  <AccordionSummary>
-                    <ExpandMoreIcon className='expand-more-icon' />
-                    <Typography className='accordion-head-text'>
-                      <span className='accordion-head-text-column'>{`${headerColumns[0]}`} </span> <br /> {rowData[headerColumns[0]]}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>{renderCards(rowData)}</AccordionDetails>
-                </Accordion>
-              ))
+              // Display data without search term
+              csvData.map((rowData, index) => {
+                const nonEmptyProperties = Object.keys(rowData).filter((key) => rowData[key].trim() !== '');
+                if (nonEmptyProperties.length > 1) {
+                  return (
+                    <Accordion key={index}>
+                      <AccordionSummary>
+                        <ExpandMoreIcon className='expand-more-icon' />
+                        <Typography className='accordion-head-text'>
+                          <span className='accordion-head-text-column'>{`${headerColumns[0]}`} </span> <br /> {rowData[headerColumns[0]]}
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>{renderCards(rowData)}</AccordionDetails>
+                    </Accordion>
+                  );
+                }
+                return null;
+              })
             )}
           </>
         )}
