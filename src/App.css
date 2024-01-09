@@ -76,15 +76,6 @@
 
 
 /* Top - Search and logo */
-.logo {
-  /* left: 1693px; */
-  width: 187px;
-  height: 82px;
-  position: absolute;
-  right: 40px;
-  cursor: pointer;
-}
-
 .head-div {
   height: 92px;
   display: flex;
@@ -96,6 +87,14 @@
   box-shadow: 0px 3px 6px #00000029 !important;
   z-index: 1000;
   margin-bottom: 4px;
+}
+
+.logo {
+  position: absolute;
+  width: 187px;
+  height: 82px;
+  right: 40px;
+  cursor: pointer;
 }
 
 .search-bar {
@@ -154,11 +153,10 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  /* text-align: right; */
 }
 
 .file-info-text {
-  font: normal normal normal 16px/19px Rubik;
+  font: normal normal normal 1rem/1.18rem Rubik;
   position: absolute;
   bottom: 15px;
   right: 30px;
@@ -249,7 +247,7 @@
 
 /* Accordions */
 .MuiAccordion-root {
-  width: 1348px;
+  width: 75%;
   margin-top: 16px !important;
   border: 1px solid var(--cream) !important;
   box-shadow: 0px 3px 6px #00000029 !important;
@@ -283,7 +281,6 @@
 }
 
 .accordion-head-text-column {
-  /* margin-top: 20px !important; */
   color: #455A64;
   opacity: 1;
   font: normal normal normal 12px/15px Rubik;

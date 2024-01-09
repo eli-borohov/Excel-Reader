@@ -29,6 +29,7 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
     return () => clearTimeout(loadingTimeout);
   }, []);
 
+// console.log(csvData);
 
   //Handle empty file
   if (!csvData || csvData.length === 0) {
@@ -41,11 +42,13 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
 
   // Function to render cards in the accordions
   const renderCards = (rowData: { [columnName: string]: string }) => {
-    return headerColumns.slice(1).map((columnName, index) => {
-      const cellValue = rowData[columnName];
-      console.log(cellValue); // Check if cellValue is correct
+    const columnNames = Object.keys(rowData);
 
-      if (cellValue !== undefined && cellValue.trim() !== '') {
+    return columnNames.slice(1).map((columnName, index) => {
+      const cellValue = rowData[columnName];
+      // console.log(rowData[columnName]);
+
+      // if (cellValue !== undefined && cellValue.trim() !== '') {
         return (
           <Card key={index}>
             <CardContent style={{ direction: 'rtl' }}>
@@ -59,10 +62,11 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
             </CardContent>
           </Card>
         );
-      }
-      return null;
+      // } 
     });
   };
+
+
 
   //Handle search-bar
   const filteredData = csvData.filter((rowData) =>
@@ -137,7 +141,7 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
                     <AccordionSummary>
                       <ExpandMoreIcon className='expand-more-icon' />
                       <Typography className='accordion-head-text'>
-                        <span className='accordion-head-text-column'>{`${headerColumns[0]}`} </span> <br /> {rowData[headerColumns[0]]}
+                        <span className='accordion-head-text-column'>{`${headerColumns[0]}` } </span> <br /> {rowData[headerColumns[0]]}
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>{renderCards(rowData)}</AccordionDetails>
