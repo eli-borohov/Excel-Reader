@@ -79,7 +79,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onCsvDataChange }) => {
         {/* Welcome message */}
         <p className='p-1'>ברוכים הבאים</p>
         <p className='p-2'>על מנת להתחיל, יש לטעון את הקובץ הרצוי מהמכשיר</p>
-        <p className='p-3'>(בלבד CSV ניתן לטעון קבצים בפורמט)</p>
+        <p className='p-3'>(בלבד XLSX ניתן לטעון קבצים בפורמט)</p>
 
         {/* Hidden file input */}
         <input id='fileInput' type='file' accept='.xlsx' onChange={handleFileChange} style={{ display: 'none' }} />
