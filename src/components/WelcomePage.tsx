@@ -14,7 +14,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onCsvDataChange }) => {
     if (file) {
       try {
         const workbook = await readExcel(file);
-        const sheetName = workbook.SheetNames[1];
+        const sheetName = workbook.SheetNames[0];
         const sheet = workbook.Sheets[sheetName];
 
         // Convert sheet data to structured data
