@@ -8,7 +8,6 @@ import Lottie from 'lottie-react';
 import loaderAnimation from '../loader.json';
 import emptyBoxAnimation from '../empty-box.json';
 
-
 interface DisplayPageProps {
   csvData: { [columnName: string]: string }[] | null;
   filename: string;
