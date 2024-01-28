@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Accordion, AccordionDetails, AccordionSummary, Card, CardContent, Typography, TextField, InputAdornment } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Card, CardContent, Typography, TextField, InputAdornment, Select, SelectChangeEvent, MenuItem } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -21,20 +21,55 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
   //Deaclare state to the loader animation
   const [loading, setLoading] = useState<boolean>(true);
 
+  const [selectedColor, setSelectedColor] = useState<string>('');
+  const [expandedAccordions, setExpandedAccordions] = useState<Record<number, boolean>>({});
+
+  const handleColorChange = (event: SelectChangeEvent<string>) => {
+    const colorValue = event.target.value;
+    setSelectedColor(colorValue);
+    localStorage.setItem('selectedColor', colorValue);
+  };
+
+  const handleAccordionChange = (index: number) => {
+    setExpandedAccordions((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+
+  const colorOptions = [
+    { value: '#6AFF08', label: 'ירקרק' },
+    { value: '#08FF94', label: 'טורכיז' },
+    { value: '#08C4FF', label: 'תכלת' },
+    { value: '#0866FF', label: 'כחול בהיר' },
+    { value: '#0831FF', label: 'כחול כהה' },
+    { value: '#8408FF', label: 'סגול כהה' },
+    { value: '#CF08FF', label: 'סגול בהיר' },
+    { value: '#FF08A4', label: 'ורוד' },
+    { value: '#FF0808', label: 'אדום' },
+    { value: '#FFA408', label: 'כתום' },
+    { value: '#4A4A4A', label: 'אפור כהה' },
+    { value: '#000000', label: 'שחור' },
+  ];
+
   useEffect(() => {
     const loadingTimeout = setTimeout(() => {
       setLoading(false);
+      // Load selectedColor from local storage
+      const storedColor = localStorage.getItem('selectedColor');
+      if (storedColor) {
+        setSelectedColor(storedColor);
+      }
     }, 2000);
     return () => clearTimeout(loadingTimeout);
   }, []);
 
-// console.log(csvData);
+  // console.log(csvData);
 
   //Handle empty file
   if (!csvData || csvData.length === 0) {
     return <div>No data to display.</div>;
   };
-
 
   //Extract column names from the first row of the CSV data
   const headerColumns = Object.keys(csvData[0]);
@@ -48,19 +83,19 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
       // console.log(rowData[columnName]);
 
       // if (cellValue !== undefined && cellValue.trim() !== '') {
-        return (
-          <Card key={index}>
-            <CardContent style={{ direction: 'rtl' }}>
-              <Typography style={{ whiteSpace: 'pre-line' }}>
-                <span className='column-name'>
-                  {`${columnName}`}
-                </span>
-                <br />
-                {cellValue}
-              </Typography>
-            </CardContent>
-          </Card>
-        );
+      return (
+        <Card key={index}>
+          <CardContent style={{ direction: 'rtl' }}>
+            <Typography style={{ whiteSpace: 'pre-line' }}>
+              <span className='column-name'>
+                {`${columnName}`}
+              </span>
+              <br />
+              {cellValue}
+            </Typography>
+          </CardContent>
+        </Card>
+      );
       // } 
     });
   };
@@ -80,6 +115,10 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
   return (
     <>
       <div className='head-div'>
+
+        {/* logo */}
+        <img src={logo} alt='logo' className='logo' onClick={() => window.location.reload()} />
+
         {/* Search Bar */}
         <TextField
           classes={{
@@ -99,7 +138,24 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
             ),
           }}
         />
-        <img src={logo} alt='logo' className='logo' onClick={() => window.location.reload()} />
+
+        {/* Color Dropdown */}
+        <Select
+          value={selectedColor}
+          onChange={handleColorChange}
+          displayEmpty
+          className='color-dropdown'
+          inputProps={{ 'aria-label': 'Select color' }}
+        >
+          {colorOptions.map((color) => (
+            <MenuItem key={color.value} value={color.value}>
+              {color.label}
+            </MenuItem>
+          ))}
+          <MenuItem value='' disabled>
+            בחירת צבע
+          </MenuItem>
+        </Select>
       </div>
 
 
@@ -118,9 +174,15 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
           <>
             {/* File info, and delete */}
             <div className='file-info-div'>
-              <p className='file-info-text'>:מציג תוצאות מקובץ</p>
-              <p className='file-name'>{filename}</p>
-              <DeleteOutlineIcon className='delete-icon' onClick={() => window.location.reload()} />
+              <div className='texts'>
+                <p className='disclaimer'>מציג תוצאות מקובץ:</p>
+                <p className='file-name'>{filename}</p>
+              </div>
+              <div className='delete' onClick={() => window.location.reload()}>
+                <DeleteOutlineIcon className='delete-icon' />
+                <p className='action-name'>החלפת קובץ</p>
+              </div>
+
             </div >
 
             {/* Display accordions based on filtered or original data */}
@@ -134,13 +196,21 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
 
                 </div>
               ) : (
-                //Render accordions for the filtered data
+                // Render accordions for the filtered data
                 filteredData.map((rowData, index) => (
-                  <Accordion key={index}>
-                    <AccordionSummary>
-                      <ExpandMoreIcon className='expand-more-icon' />
+                  <Accordion
+                    key={index}
+                    expanded={expandedAccordions[index] || false}
+                    onChange={() => handleAccordionChange(index)}
+                  >
+                    <AccordionSummary
+                      className='accordion-summary'
+                      style={{
+                        backgroundColor: expandedAccordions[index] ? selectedColor : 'var(--white)',
+                      }}
+                    >
                       <Typography className='accordion-head-text'>
-                        <span className='accordion-head-text-column'>{`${headerColumns[0]}` } </span> <br /> {rowData[headerColumns[0]]}
+                        <span className='accordion-head-text-column'></span>{rowData[headerColumns[0]]}
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>{renderCards(rowData)}</AccordionDetails>
@@ -153,11 +223,19 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
                 const nonEmptyProperties = Object.keys(rowData).filter((key) => rowData[key].trim() !== '');
                 if (nonEmptyProperties.length > 1) {
                   return (
-                    <Accordion key={index}>
-                      <AccordionSummary>
-                        <ExpandMoreIcon className='expand-more-icon' />
+                    <Accordion
+                      key={index}
+                      expanded={expandedAccordions[index] || false}
+                      onChange={() => handleAccordionChange(index)}
+                    >
+                      <AccordionSummary
+                        className='accordion-summary'
+                        style={{
+                          backgroundColor: expandedAccordions[index] ? selectedColor : 'var(--white)',
+                        }}
+                      >
                         <Typography className='accordion-head-text'>
-                          <span className='accordion-head-text-column'>{`${headerColumns[0]}`} </span> <br /> {rowData[headerColumns[0]]}
+                          <span className='accordion-head-text-column'></span>{rowData[headerColumns[0]]}
                         </Typography>
                       </AccordionSummary>
                       <AccordionDetails>{renderCards(rowData)}</AccordionDetails>
@@ -169,7 +247,7 @@ const DisplayPage: React.FC<DisplayPageProps> = ({ csvData, filename }) => {
             )}
           </>
         )}
-      </div>
+      </div >
     </>
   );
 };
