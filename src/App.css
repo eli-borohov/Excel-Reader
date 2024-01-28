@@ -91,7 +91,6 @@
   padding: 0.5rem 0;
   justify-content: space-between;
   max-width: calc(100vw);
-
 }
 
 .logo {
@@ -207,14 +206,15 @@
   background-color: var(--white);
   font-size: 0.8rem;
   cursor: pointer;
+}
 
-  .delete-icon {
-    color: var(--red);
-    margin-left: 0.5rem;
-  }
-  .action-name {
-    margin: 0;
-  }
+.delete-icon {
+  color: var(--red);
+  margin-left: 0.5rem;
+}
+
+.action-name {
+  margin: 0;
 }
 
 /* Loader animation */
@@ -242,7 +242,6 @@
 }
 
 /* No results animation */
-
 .no-results-div {
   margin: auto;
   display: flex;
